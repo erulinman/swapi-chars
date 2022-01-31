@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_details_label">32sp</dimen>
+    <dimen name="text_size_details_item">24sp</dimen>
+    <dimen name="text_size_characters_item">28sp</dimen>
+    <dimen name="recycler_view_gaps">5dp</dimen>
+</resources>

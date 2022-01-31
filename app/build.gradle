@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -30,13 +31,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
 
     // Dagger
-    implementation "com.google.dagger:dagger:2.40.4"
-    kapt "com.google.dagger:dagger-compiler:2.40.4"
+    implementation 'com.google.dagger:dagger:2.40.4'
+    kapt 'com.google.dagger:dagger-compiler:2.40.4'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"

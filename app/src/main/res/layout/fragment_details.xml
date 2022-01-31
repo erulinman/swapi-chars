@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    android:padding="@dimen/recycler_view_gaps">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/label_birth_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_birth_year"
+            android:textAppearance="@style/Text.DetailsLabel"
+            android:theme="@style/Theme.SWAPIChars.TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/birth_year"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/Text.ItemDetails"
+            android:theme="@style/Theme.SWAPIChars.Item.Center"
+            app:layout_constraintBottom_toBottomOf="@id/label_birth_year"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/label_birth_year"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Space
+            android:id="@+id/spacer_birth_year"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_birth_year" />
+
+        <TextView
+            android:id="@+id/label_eye_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_eye_color"
+            android:textAppearance="@style/Text.DetailsLabel"
+            android:theme="@style/Theme.SWAPIChars.TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spacer_birth_year" />
+
+        <TextView
+            android:id="@+id/eye_color"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/Text.ItemDetails"
+            android:theme="@style/Theme.SWAPIChars.Item.Center"
+            app:layout_constraintBottom_toBottomOf="@id/label_eye_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/label_eye_color" />
+
+        <Space
+            android:id="@+id/spacer_eye_color"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_eye_color" />
+
+        <TextView
+            android:id="@+id/label_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_gender"
+            android:textAppearance="@style/Text.DetailsLabel"
+            android:theme="@style/Theme.SWAPIChars.TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spacer_eye_color" />
+
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/Text.ItemDetails"
+            android:theme="@style/Theme.SWAPIChars.Item.Center"
+            app:layout_constraintBottom_toBottomOf="@id/label_gender"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/label_gender" />
+
+        <Space
+            android:id="@+id/spacer_gender"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_gender" />
+
+        <TextView
+            android:id="@+id/label_hair_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_hair_color"
+            android:textAppearance="@style/Text.DetailsLabel"
+            android:theme="@style/Theme.SWAPIChars.TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spacer_gender" />
+
+        <TextView
+            android:id="@+id/hair_color"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/Text.ItemDetails"
+            android:theme="@style/Theme.SWAPIChars.Item.Center"
+            app:layout_constraintBottom_toBottomOf="@id/label_hair_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/label_hair_color" />
+
+        <Space
+            android:id="@+id/spacer_hair_color"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_hair_color" />
+
+        <TextView
+            android:id="@+id/label_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_height"
+            android:textAppearance="@style/Text.DetailsLabel"
+            android:theme="@style/Theme.SWAPIChars.TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spacer_hair_color" />
+
+        <TextView
+            android:id="@+id/height"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/Text.ItemDetails"
+            android:theme="@style/Theme.SWAPIChars.Item.Center"
+            app:layout_constraintBottom_toBottomOf="@id/label_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/label_height" />
+
+        <Space
+            android:id="@+id/spacer_height"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_height" />
+
+        <TextView
+            android:id="@+id/label_mass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_mass"
+            android:textAppearance="@style/Text.DetailsLabel"
+            android:theme="@style/Theme.SWAPIChars.TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spacer_height" />
+
+        <TextView
+            android:id="@+id/mass"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/Text.ItemDetails"
+            android:theme="@style/Theme.SWAPIChars.Item.Center"
+            app:layout_constraintBottom_toBottomOf="@id/label_mass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/label_mass" />
+
+        <Space
+            android:id="@+id/spacer_mass"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/label_mass" />
+
+        <TextView
+            android:id="@+id/label_skin_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_skin_color"
+            android:textAppearance="@style/Text.DetailsLabel"
+            android:theme="@style/Theme.SWAPIChars.TextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spacer_mass" />
+
+        <TextView
+            android:id="@+id/skin_color"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAppearance="@style/Text.ItemDetails"
+            android:theme="@style/Theme.SWAPIChars.Item.Center"
+            app:layout_constraintBottom_toBottomOf="@id/label_skin_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@id/label_skin_color" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="200dp"
+            app:barrierDirection="end"
+            app:barrierMargin="10dp"
+            app:constraint_referenced_ids="label_hair_color,label_gender,label_birth_year,label_eye_color,label_height,label_skin_color,label_mass" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

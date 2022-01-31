@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Text.Message">
+        <item name="android:textSize">@dimen/text_size_message</item>
+        <item name="android:textColor">?attr/colorSecondaryVariant</item>
+    </style>
+
+    <style name="Text.DetailsLabel">
+        <item name="android:textSize">@dimen/text_size_details_label</item>
+    </style>
+
+    <style name="Text.ItemDetails">
+        <item name="android:textColor">?attr/colorSecondaryVariant</item>
+        <item name="android:textSize">@dimen/text_size_details_item</item>
+    </style>
+
+    <style name="Text.ItemCharacters">
+        <item name="android:textColor">?attr/colorSecondaryVariant</item>
+        <item name="android:textSize">@dimen/text_size_characters_item</item>
+    </style>
+
+    <style name="Theme.SWAPIChars.TextView">
+        <item name="android:gravity">start|center_vertical</item>
+    </style>
+
+    <style name="Theme.SWAPIChars.Item">
+        <item name="android:paddingHorizontal">8dp</item>
+        <item name="android:background">@drawable/shape_rv_character</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+    </style>
+
+    <style name="Theme.SWAPIChars.Message">
+        <item name="android:layout_margin">@dimen/recycler_view_gaps</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Theme.SWAPIChars.Item.Center">
+        <item name="android:gravity">center</item>
+    </style>
+
+    <dimen name="text_size_message">24sp</dimen>
+</resources>

@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">SWAPI Chars</string>
+    <string name="img_btn_content_description_favorite">Add to/remove from favorites</string>
+    <string name="sv_hint">Name…</string>
+    <string name="tv_birth_year">Birth year</string>
+    <string name="tv_eye_color">Eye color</string>
+    <string name="tv_gender">Gender</string>
+    <string name="tv_hair_color">Hair color</string>
+    <string name="tv_height">Height</string>
+    <string name="tv_mass">Mass</string>
+    <string name="tv_skin_color">Skin color</string>
+    <string name="tv_nothing_found">Nothing found</string>
+    <string name="tv_empty_favorites">Favorites is empty</string>
+    <string name="menu_item_search">Search</string>
+    <string name="menu_item_favorites">Favorites</string>
 </resources>

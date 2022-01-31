@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bnv_search"
+        android:enabled="true"
+        android:icon="@drawable/ic_search"
+        android:title="@string/menu_item_search" />
+
+    <item
+        android:id="@+id/bnv_favorites"
+        android:enabled="true"
+        android:icon="@drawable/ic_star_fill"
+        android:title="@string/menu_item_favorites" />
+</menu>
