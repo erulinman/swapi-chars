@@ -8,10 +8,7 @@ import info.erulinman.swapichars.data.database.CharactersDatabase
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule(private val context: Context) {
-
-    @Provides
-    fun provideContext() = context
+class DatabaseModule {
 
     @Singleton
     @Provides

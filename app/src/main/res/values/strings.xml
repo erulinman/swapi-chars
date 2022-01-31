@@ -13,4 +13,7 @@
     <string name="tv_empty_favorites">Favorites is empty</string>
     <string name="menu_item_search">Search</string>
     <string name="menu_item_favorites">Favorites</string>
+    <string name="error_bad_connect">Bad connection, check internet </string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="error_http">Something wrong with server</string>
 </resources>

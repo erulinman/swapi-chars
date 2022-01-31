@@ -2,8 +2,8 @@ package info.erulinman.swapichars
 
 import android.app.Application
 import info.erulinman.swapichars.di.AppComponent
+import info.erulinman.swapichars.di.AppModule
 import info.erulinman.swapichars.di.DaggerAppComponent
-import info.erulinman.swapichars.di.DatabaseModule
 
 class App : Application() {
 
@@ -13,7 +13,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         _appComponent = DaggerAppComponent.builder()
-            .databaseModule(DatabaseModule(this))
+            .appModule(AppModule(this))
             .build()
     }
 }

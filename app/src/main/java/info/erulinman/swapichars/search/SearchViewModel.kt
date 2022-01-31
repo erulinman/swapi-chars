@@ -41,7 +41,7 @@ class SearchViewModel<DS : DataSource>(private val dataSource: DS) : ViewModel()
                     _viewDataState.postValue(value)
                 }
                 is DataSource.Response.Failure -> {
-                    val value = ViewDataState.Error(response.exception.toString())
+                    val value = ViewDataState.Error(response.exception)
                     _viewDataState.postValue(value)
                 }
             }

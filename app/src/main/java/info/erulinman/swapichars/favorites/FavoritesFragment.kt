@@ -18,9 +18,13 @@ import info.erulinman.swapichars.databinding.FragmentFavoritesBinding
 import info.erulinman.swapichars.details.DetailsFragment
 import info.erulinman.swapichars.search.FavoritesViewModel
 import info.erulinman.swapichars.utils.CharacterItemDecoration
+import info.erulinman.swapichars.utils.ErrorHandler
 import javax.inject.Inject
 
 class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(R.layout.fragment_favorites) {
+
+    @Inject
+    lateinit var errorHandler: ErrorHandler
 
     @Inject
     lateinit var viewModelFactory: Lazy<ViewModelFactory<LocalDataSource>>
@@ -99,7 +103,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(R.layout.fragme
                     binding.characters.isVisible = false
                     binding.progressBar.isVisible = false
                     binding.message.isVisible = true
-                    binding.message.text = viewDataState.msg
+                    binding.message.text = errorHandler(viewDataState.exception)
                 }
                 is ViewDataState.Loaded -> {
                     binding.characters.isVisible = true
@@ -114,7 +118,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(R.layout.fragme
 
                 }
                 is ViewDataState.Loading -> {
-                    binding.characters.isVisible = true
+                    binding.characters.isVisible = false
                     binding.progressBar.isVisible = true
                     binding.message.isVisible = false
                 }

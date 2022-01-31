@@ -7,7 +7,7 @@ import info.erulinman.swapichars.search.SearchFragment
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [DatabaseModule::class, NetworkModule::class])
+@Component(modules = [DatabaseModule::class, NetworkModule::class, AppModule::class])
 interface AppComponent {
 
     fun inject(fragment: SearchFragment)

@@ -21,9 +21,13 @@ import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.databinding.FragmentSearchBinding
 import info.erulinman.swapichars.details.DetailsFragment
 import info.erulinman.swapichars.utils.CharacterItemDecoration
+import info.erulinman.swapichars.utils.ErrorHandler
 import javax.inject.Inject
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
+
+    @Inject
+    lateinit var errorHandler: ErrorHandler
 
     @Inject
     lateinit var viewModelFactory: Lazy<ViewModelFactory<RemoteDataSource>>
@@ -101,13 +105,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     binding.characters.isVisible = false
                     binding.progressBar.isVisible = false
                     binding.message.isVisible = true
-                    binding.message.text = viewDataState.msg
+                    binding.message.text = errorHandler(viewDataState.exception)
                 }
                 is Loaded -> {
                     binding.characters.isVisible = true
                     binding.progressBar.isVisible = false
                     binding.message.isVisible = if (viewDataState.data.isEmpty()) {
-                        binding.message.text = getString(R.string.tv_nothing_found)
+                        binding.message.setText(R.string.tv_nothing_found)
                         true
                     } else {
                         false
@@ -116,7 +120,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
 
                 }
                 is Loading -> {
-                    binding.characters.isVisible = true
+                    binding.characters.isVisible = false
                     binding.progressBar.isVisible = true
                     binding.message.isVisible = false
                 }
