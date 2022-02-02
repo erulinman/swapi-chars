@@ -1,26 +1,23 @@
 package info.erulinman.swapichars.details
 
-import android.content.Context
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
+import android.view.*
 import android.widget.ImageButton
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import dagger.Lazy
-import info.erulinman.swapichars.App
 import info.erulinman.swapichars.BaseFragment
 import info.erulinman.swapichars.R
 import info.erulinman.swapichars.ViewModelFactory
 import info.erulinman.swapichars.data.LocalDataSource
 import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.databinding.FragmentDetailsBinding
+import info.erulinman.swapichars.di.AppComponent
 import javax.inject.Inject
 
-class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_details) {
+class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
 
     @Inject
     lateinit var viewModelFactory: Lazy<ViewModelFactory<LocalDataSource>>
@@ -32,21 +29,21 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>(R.layout.fragment_d
     private var _btnCheckFav: ImageButton? = null
     private val btnCheckFav get() = _btnCheckFav!!
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity().application as App).appComponent.inject(this)
+    override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentDetailsBinding.inflate(inflater, container, false)
+
+    override fun initInject(daggerComponent: AppComponent) {
+        daggerComponent.inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         requireArguments().getParcelable<Character>(ARG_CHARACTER)?.let {
             viewModel.setCharacter(it)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        _binding = FragmentDetailsBinding.bind(view)
         binding.apply {
             birthYear.text = viewModel.character.birth_year
             eyeColor.text = viewModel.character.eye_color
