@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import info.erulinman.swapichars.data.DataSource
 import info.erulinman.swapichars.details.DetailsViewModel
-import info.erulinman.swapichars.search.FavoritesViewModel
+import info.erulinman.swapichars.favorites.FavoritesViewModel
 import info.erulinman.swapichars.search.SearchViewModel
 import javax.inject.Inject
 

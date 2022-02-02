@@ -1,4 +1,4 @@
-package info.erulinman.swapichars.search
+package info.erulinman.swapichars.favorites
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

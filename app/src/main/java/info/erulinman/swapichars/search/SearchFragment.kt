@@ -1,5 +1,6 @@
 package info.erulinman.swapichars.search
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
@@ -97,6 +98,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeViewModel() = viewModel.apply {
         viewDataState.observe(viewLifecycleOwner) { viewDataState ->
             if (viewDataState == null) return@observe

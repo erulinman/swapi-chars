@@ -11,12 +11,15 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import dagger.Lazy
-import info.erulinman.swapichars.*
+import info.erulinman.swapichars.App
+import info.erulinman.swapichars.BaseFragment
+import info.erulinman.swapichars.R
+import info.erulinman.swapichars.ViewDataState.*
+import info.erulinman.swapichars.ViewModelFactory
 import info.erulinman.swapichars.data.LocalDataSource
 import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.databinding.FragmentFavoritesBinding
 import info.erulinman.swapichars.details.DetailsFragment
-import info.erulinman.swapichars.search.FavoritesViewModel
 import info.erulinman.swapichars.utils.CharacterItemDecoration
 import info.erulinman.swapichars.utils.ErrorHandler
 import javax.inject.Inject
@@ -99,13 +102,13 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(R.layout.fragme
         viewDataState.observe(viewLifecycleOwner) { viewDataState ->
             if (viewDataState == null) return@observe
             when (viewDataState) {
-                is ViewDataState.Error -> {
+                is Error -> {
                     binding.characters.isVisible = false
                     binding.progressBar.isVisible = false
                     binding.message.isVisible = true
                     binding.message.text = errorHandler(viewDataState.exception)
                 }
-                is ViewDataState.Loaded -> {
+                is Loaded -> {
                     binding.characters.isVisible = true
                     binding.progressBar.isVisible = false
                     binding.message.isVisible = if (viewDataState.data.isEmpty()) {
@@ -117,7 +120,7 @@ class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>(R.layout.fragme
                     adapter.submitList(viewDataState.data)
 
                 }
-                is ViewDataState.Loading -> {
+                is Loading -> {
                     binding.characters.isVisible = false
                     binding.progressBar.isVisible = true
                     binding.message.isVisible = false
