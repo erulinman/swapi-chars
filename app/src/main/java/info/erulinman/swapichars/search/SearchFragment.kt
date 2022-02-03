@@ -97,10 +97,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         false
                     }
                     adapter.submitList(viewDataState.data)
-
                 }
                 is Loading -> {
-                    binding.characters.isVisible = false
+                    binding.characters.isVisible = true
                     binding.progressBar.isVisible = true
                     binding.message.isVisible = false
                 }
