@@ -7,11 +7,15 @@ import androidx.lifecycle.viewModelScope
 import info.erulinman.swapichars.ViewDataState
 import info.erulinman.swapichars.data.DataSource
 import info.erulinman.swapichars.data.entity.Character
+import info.erulinman.swapichars.utils.ErrorHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class SearchViewModel<DS : DataSource>(private val dataSource: DS) : ViewModel() {
+class SearchViewModel<DS : DataSource>(
+    private val dataSource: DS,
+    private val errorHandler: ErrorHandler
+) : ViewModel() {
 
     private var job: Job? = null
 
@@ -41,7 +45,7 @@ class SearchViewModel<DS : DataSource>(private val dataSource: DS) : ViewModel()
                     _viewDataState.postValue(value)
                 }
                 is DataSource.Response.Failure -> {
-                    val value = ViewDataState.Error(response.exception)
+                    val value = ViewDataState.Error(errorHandler(response.exception))
                     _viewDataState.postValue(value)
                 }
             }

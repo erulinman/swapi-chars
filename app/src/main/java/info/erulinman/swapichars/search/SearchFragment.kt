@@ -1,5 +1,6 @@
 package info.erulinman.swapichars.search
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
@@ -15,13 +16,9 @@ import info.erulinman.swapichars.databinding.FragmentSearchBinding
 import info.erulinman.swapichars.details.DetailsFragment
 import info.erulinman.swapichars.di.AppComponent
 import info.erulinman.swapichars.utils.CharacterItemDecoration
-import info.erulinman.swapichars.utils.ErrorHandler
 import javax.inject.Inject
 
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
-
-    @Inject
-    lateinit var errorHandler: ErrorHandler
 
     @Inject
     lateinit var viewModelFactory: Lazy<ViewModelFactory<RemoteDataSource>>
@@ -71,6 +68,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         searchView.isIconified = false
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeViewModel(adapter: SearchAdapter) = viewModel.apply {
         viewDataState.observe(viewLifecycleOwner) { viewDataState ->
             if (viewDataState == null) {
@@ -85,7 +83,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                     binding.characters.isVisible = false
                     binding.progressBar.isVisible = false
                     binding.message.isVisible = true
-                    binding.message.text = errorHandler(viewDataState.exception)
+                    binding.message.text = viewDataState.message
                 }
                 is Loaded -> {
                     binding.characters.isVisible = true
