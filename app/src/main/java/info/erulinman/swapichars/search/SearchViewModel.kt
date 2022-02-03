@@ -41,12 +41,15 @@ class SearchViewModel<DS : DataSource>(
 
             when (response) {
                 is DataSource.Response.Success -> {
-                    val value = ViewDataState.Loaded(response.data)
+                    val value = if (response.data.isEmpty())
+                        ViewDataState.Empty
+                    else
+                        ViewDataState.Loaded(response.data)
                     _viewDataState.postValue(value)
                 }
                 is DataSource.Response.Failure -> {
-                    val value = ViewDataState.Error(errorHandler(response.exception))
-                    _viewDataState.postValue(value)
+                    val errorMessage = errorHandler(response.exception)
+                    _viewDataState.postValue(ViewDataState.Error(errorMessage))
                 }
             }
         }

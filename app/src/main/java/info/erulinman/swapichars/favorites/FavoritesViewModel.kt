@@ -40,7 +40,10 @@ class FavoritesViewModel<DS : DataSource>(
 
             when (response) {
                 is DataSource.Response.Success -> {
-                    val value = ViewDataState.Loaded(response.data)
+                    val value = if (response.data.isEmpty())
+                        ViewDataState.Empty
+                    else
+                        ViewDataState.Loaded(response.data)
                     _viewDataState.postValue(value)
                 }
                 is DataSource.Response.Failure -> {

@@ -79,6 +79,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 return@observe
             }
             when (viewDataState) {
+                is Empty -> {
+                    binding.characters.isVisible = false
+                    binding.progressBar.isVisible = false
+                    binding.message.isVisible = true
+                    binding.message.setText(R.string.tv_nothing_found)
+                }
                 is Error -> {
                     binding.characters.isVisible = false
                     binding.progressBar.isVisible = false
@@ -88,12 +94,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 is Loaded -> {
                     binding.characters.isVisible = true
                     binding.progressBar.isVisible = false
-                    binding.message.isVisible = if (viewDataState.data.isEmpty()) {
-                        binding.message.setText(R.string.tv_nothing_found)
-                        true
-                    } else {
-                        false
-                    }
+                    binding.message.isVisible = false
                     adapter.submitList(viewDataState.data)
                 }
                 is Loading -> {
