@@ -16,4 +16,5 @@
     <string name="error_bad_connect">Bad connection, check internet </string>
     <string name="error_unknown">Unknown error</string>
     <string name="error_http">Something wrong with server</string>
+    <string name="tv_request_restart">Something went wrong, please restart the application</string>
 </resources>

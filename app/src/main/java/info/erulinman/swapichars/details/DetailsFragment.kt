@@ -44,17 +44,17 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        toolbar.setTitle(viewModel.character.name)
+        val character = viewModel.character
         binding.apply {
-            birthYear.text = viewModel.character.birth_year
-            eyeColor.text = viewModel.character.eye_color
-            gender.text = viewModel.character.gender
-            hairColor.text = viewModel.character.hair_color
-            height.text = viewModel.character.height
-            mass.text = viewModel.character.mass
-            skinColor.text = viewModel.character.skin_color
+            birthYear.text = character.birth_year
+            eyeColor.text = character.eye_color
+            gender.text = character.gender
+            hairColor.text = character.hair_color
+            height.text = character.height
+            mass.text = character.mass
+            skinColor.text = character.skin_color
         }
-        requireActivity().findViewById<MaterialToolbar>(R.id.toolbar).title =
-            viewModel.character.name
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -80,7 +80,6 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
     }
 
     private fun observeViewModel() = viewModel.apply {
-
         favorites.observe(viewLifecycleOwner) { favorites ->
             val iconResId = if (viewModel.character in favorites)
                 R.drawable.ic_star_fill

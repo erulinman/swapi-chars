@@ -1,20 +1,16 @@
 package info.erulinman.swapichars.search
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
 import androidx.core.view.isVisible
-import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.appbar.MaterialToolbar
 import dagger.Lazy
 import info.erulinman.swapichars.BaseFragment
 import info.erulinman.swapichars.R
 import info.erulinman.swapichars.ViewDataState.*
 import info.erulinman.swapichars.ViewModelFactory
 import info.erulinman.swapichars.data.RemoteDataSource
-import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.databinding.FragmentSearchBinding
 import info.erulinman.swapichars.details.DetailsFragment
 import info.erulinman.swapichars.di.AppComponent
@@ -45,13 +41,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        toolbar.setTitle(R.string.app_name)
         val adapter = SearchAdapter(viewModel) { character ->
-            openDetailsFragment(character)
+            navigator.navigate(DetailsFragment.newInstance(character), true)
         }
         binding.characters.addItemDecoration(CharacterItemDecoration(R.dimen.recycler_view_gaps))
         binding.characters.adapter = adapter
         observeViewModel(adapter)
-        requireActivity().findViewById<MaterialToolbar>(R.id.toolbar).setTitle(R.string.app_name)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -75,18 +71,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         searchView.isIconified = false
     }
 
-    private fun openDetailsFragment(character: Character) {
-        val fragment = DetailsFragment.newInstance(character)
-        parentFragmentManager.commit {
-            addToBackStack(null)
-            replace(R.id.fragmentContainerMain, fragment)
-        }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
     private fun observeViewModel(adapter: SearchAdapter) = viewModel.apply {
         viewDataState.observe(viewLifecycleOwner) { viewDataState ->
-            if (viewDataState == null) return@observe
+            if (viewDataState == null) {
+                binding.characters.isVisible = false
+                binding.progressBar.isVisible = false
+                binding.message.isVisible = true
+                binding.message.setText(R.string.tv_request_restart)
+                return@observe
+            }
             when (viewDataState) {
                 is Error -> {
                     binding.characters.isVisible = false

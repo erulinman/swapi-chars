@@ -16,9 +16,15 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     private var _binding: VB? = null
     protected val binding get() = checkNotNull(_binding)
 
-    abstract fun initBinding(inflater: LayoutInflater, container: ViewGroup?): VB
+    private var _toolbar: Toolbar? = null
+    protected val toolbar get() = checkNotNull(_toolbar)
 
-    abstract fun initInject(daggerComponent: AppComponent)
+    private var _navigator: Navigator? = null
+    protected val navigator get() = checkNotNull(_navigator)
+
+    protected abstract fun initBinding(inflater: LayoutInflater, container: ViewGroup?): VB
+
+    protected abstract fun initInject(daggerComponent: AppComponent)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +33,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        _toolbar = context as Toolbar
+        _navigator = context as Navigator
         daggerComponent = (context.applicationContext as App).appComponent
         initInject(checkNotNull(daggerComponent))
     }
@@ -34,6 +42,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     override fun onDetach() {
         super.onDetach()
         daggerComponent = null
+        _toolbar = null
+        _navigator = null
     }
 
     override fun onCreateView(
