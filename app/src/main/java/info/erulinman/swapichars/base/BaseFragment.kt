@@ -1,15 +1,19 @@
-package info.erulinman.swapichars
+package info.erulinman.swapichars.base
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import info.erulinman.swapichars.App
+import info.erulinman.swapichars.Navigator
+import info.erulinman.swapichars.Toolbar
 import info.erulinman.swapichars.di.AppComponent
 
-abstract class BaseFragment<VB : ViewBinding> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding, AV : View>(
+    private val menuId: Int,
+    private val actionViewResId: Int
+) : Fragment() {
 
     private var daggerComponent: AppComponent? = null
 
@@ -25,6 +29,8 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     protected abstract fun initBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 
     protected abstract fun initInject(daggerComponent: AppComponent)
+
+    protected abstract fun prepareToolbarActionView(view: AV)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,5 +64,14 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(menuId, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val view = menu.findItem(actionViewResId).actionView as? AV
+        prepareToolbarActionView(checkNotNull(view))
     }
 }

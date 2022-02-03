@@ -2,22 +2,24 @@ package info.erulinman.swapichars.details
 
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.appbar.MaterialToolbar
 import dagger.Lazy
-import info.erulinman.swapichars.BaseFragment
 import info.erulinman.swapichars.R
 import info.erulinman.swapichars.ViewModelFactory
+import info.erulinman.swapichars.base.BaseFragment
 import info.erulinman.swapichars.data.LocalDataSource
 import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.databinding.FragmentDetailsBinding
 import info.erulinman.swapichars.di.AppComponent
 import javax.inject.Inject
 
-class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
+class DetailsFragment :
+    BaseFragment<FragmentDetailsBinding, ImageButton>(R.menu.m_favorite, R.id.tb_btn_favorite) {
 
     @Inject
     lateinit var viewModelFactory: Lazy<ViewModelFactory<LocalDataSource>>
@@ -26,14 +28,25 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
         ViewModelProvider(this, viewModelFactory.get()).get(DetailsViewModel::class.java)
     }
 
-    private var _btnCheckFav: ImageButton? = null
-    private val btnCheckFav get() = _btnCheckFav!!
-
     override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentDetailsBinding.inflate(inflater, container, false)
 
     override fun initInject(daggerComponent: AppComponent) {
         daggerComponent.inject(this)
+    }
+
+    override fun prepareToolbarActionView(view: ImageButton) {
+        val theme = context?.theme
+        val backgroundColor = TypedValue().apply {
+            theme?.resolveAttribute(R.attr.colorPrimary, this, true)
+        }
+        val imageColor = TypedValue().apply {
+            theme?.resolveAttribute(R.attr.colorOnPrimary, this, true)
+        }
+        view.backgroundTintList = resources.getColorStateList(backgroundColor.resourceId, theme)
+        view.imageTintList = resources.getColorStateList(imageColor.resourceId, theme)
+        view.setOnClickListener { viewModel.updateFavorites() }
+        observeViewModel(view)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,35 +70,14 @@ class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_favorite, menu)
-
-        _btnCheckFav = menu.findItem(R.id.menu_btn_favorite).actionView as ImageButton
-        btnCheckFav.setOnClickListener { viewModel.updateFavorites() }
-
-        val theme = context?.theme
-
-        val backgroundColorId = TypedValue()
-            .apply { theme?.resolveAttribute(R.attr.colorPrimary, this, true) }
-            .resourceId
-
-        val imageColorId = TypedValue()
-            .apply { theme?.resolveAttribute(R.attr.colorOnPrimary, this, true) }
-            .resourceId
-
-        btnCheckFav.backgroundTintList = resources.getColorStateList(backgroundColorId, theme)
-        btnCheckFav.imageTintList = resources.getColorStateList(imageColorId, theme)
-
-        observeViewModel()
-    }
-
-    private fun observeViewModel() = viewModel.apply {
+    private fun observeViewModel(btnFav: ImageButton) = viewModel.apply {
         favorites.observe(viewLifecycleOwner) { favorites ->
-            val iconResId = if (viewModel.character in favorites)
-                R.drawable.ic_star_fill
-            else
-                R.drawable.ic_star_empty
-            btnCheckFav.setImageResource(iconResId)
+            btnFav.setImageResource(
+                if (viewModel.character in favorites)
+                    R.drawable.ic_star_fill
+                else
+                    R.drawable.ic_star_empty
+            )
         }
     }
 

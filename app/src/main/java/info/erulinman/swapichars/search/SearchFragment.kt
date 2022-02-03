@@ -2,15 +2,17 @@ package info.erulinman.swapichars.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import dagger.Lazy
-import info.erulinman.swapichars.BaseFragment
 import info.erulinman.swapichars.R
 import info.erulinman.swapichars.ViewDataState.*
 import info.erulinman.swapichars.ViewModelFactory
+import info.erulinman.swapichars.base.BaseFragment
 import info.erulinman.swapichars.data.RemoteDataSource
 import info.erulinman.swapichars.databinding.FragmentSearchBinding
 import info.erulinman.swapichars.details.DetailsFragment
@@ -18,7 +20,8 @@ import info.erulinman.swapichars.di.AppComponent
 import info.erulinman.swapichars.utils.CharacterItemDecoration
 import javax.inject.Inject
 
-class SearchFragment : BaseFragment<FragmentSearchBinding>() {
+class SearchFragment :
+    BaseFragment<FragmentSearchBinding, SearchView>(R.menu.m_search, R.id.tb_search_view) {
 
     @Inject
     lateinit var viewModelFactory: Lazy<ViewModelFactory<RemoteDataSource>>
@@ -27,9 +30,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         ViewModelProvider(this, viewModelFactory.get()).get(SearchViewModel::class.java)
     }
 
-    private var _searchView: SearchView? = null
-    private val searchView get() = _searchView!!
-
     override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSearchBinding.inflate(inflater, container, false)
 
@@ -37,23 +37,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         daggerComponent.inject(this)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        toolbar.setTitle(R.string.app_name)
-        val adapter = SearchAdapter(viewModel) { character ->
-            navigator.navigate(DetailsFragment.newInstance(character), true)
-        }
-        binding.characters.addItemDecoration(CharacterItemDecoration(R.dimen.recycler_view_gaps))
-        binding.characters.adapter = adapter
-        observeViewModel(adapter)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_search, menu)
-        _searchView = menu.findItem(R.id.tb_search_view).actionView as SearchView
-        searchView.isIconifiedByDefault = true
-        searchView.queryHint = getString(R.string.sv_hint)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
+    override fun prepareToolbarActionView(view: SearchView) {
+        view.isIconifiedByDefault = true
+        view.queryHint = getString(R.string.sv_hint)
+        view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 val name = query ?: ""
                 viewModel.fetchCharacters(name)
@@ -65,7 +52,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             }
 
         })
-        searchView.isIconified = false
+        view.isIconified = false
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        toolbar.setTitle(R.string.app_name)
+        val adapter = SearchAdapter(viewModel) { character ->
+            navigator.navigate(DetailsFragment.newInstance(character), true)
+        }
+        binding.characters.addItemDecoration(CharacterItemDecoration(R.dimen.recycler_view_gaps))
+        binding.characters.adapter = adapter
+        observeViewModel(adapter)
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_btn_favorite"
+        android:id="@+id/tb_btn_favorite"
         android:icon="@drawable/ic_star_fill"
         android:title="@string/menu_item_favorites"
         app:actionViewClass="android.widget.ImageButton"
