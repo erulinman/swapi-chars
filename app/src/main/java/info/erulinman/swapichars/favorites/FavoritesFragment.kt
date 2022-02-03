@@ -54,6 +54,7 @@ class FavoritesFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.fetchCharacters()
         toolbar.setTitle(R.string.app_name)
         val adapter = FavoriteAdapter(viewModel) { character ->
             navigator.navigate(DetailsFragment.newInstance(character), true)
