@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import info.erulinman.swapichars.ViewDataState
 import info.erulinman.swapichars.data.DataSource
 import info.erulinman.swapichars.data.entity.Character
-import info.erulinman.swapichars.utils.ErrorHandler
+import info.erulinman.swapichars.utils.ExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class FavoritesViewModel<DS : DataSource>(
     private val dataSource: DS,
-    private val errorHandler: ErrorHandler
+    private val exceptionHandler: ExceptionHandler
 ) : ViewModel() {
 
     private var job: Job? = null
@@ -47,7 +47,7 @@ class FavoritesViewModel<DS : DataSource>(
                     _viewDataState.postValue(value)
                 }
                 is DataSource.Response.Failure -> {
-                    val value = ViewDataState.Error(errorHandler(response.exception))
+                    val value = ViewDataState.Error(exceptionHandler(response.exception))
                     _viewDataState.postValue(value)
                 }
             }

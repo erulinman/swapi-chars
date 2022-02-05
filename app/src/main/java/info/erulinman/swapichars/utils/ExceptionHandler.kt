@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ErrorHandler @Inject constructor(private val resources: Resources) {
+class ExceptionHandler @Inject constructor(private val resources: Resources) {
 
     operator fun <T : Exception> invoke(exception: T) = when (exception) {
         is IOException -> resources.getString(R.string.error_bad_connect)
