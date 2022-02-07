@@ -1,4 +1,4 @@
-package info.erulinman.swapichars.utils
+package info.erulinman.swapichars.presentation
 
 import android.graphics.Rect
 import android.view.View

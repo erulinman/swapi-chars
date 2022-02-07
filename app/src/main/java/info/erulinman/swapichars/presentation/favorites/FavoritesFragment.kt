@@ -1,6 +1,5 @@
-package info.erulinman.swapichars.search
+package info.erulinman.swapichars.presentation.favorites
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,28 +9,28 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import dagger.Lazy
 import info.erulinman.swapichars.R
-import info.erulinman.swapichars.ViewDataState.*
-import info.erulinman.swapichars.ViewModelFactory
-import info.erulinman.swapichars.base.BaseFragment
-import info.erulinman.swapichars.data.RemoteDataSource
-import info.erulinman.swapichars.databinding.FragmentSearchBinding
-import info.erulinman.swapichars.details.DetailsFragment
-import info.erulinman.swapichars.di.AppComponent
-import info.erulinman.swapichars.utils.CharacterItemDecoration
+import info.erulinman.swapichars.presentation.ViewDataState.*
+import info.erulinman.swapichars.presentation.ViewModelFactory
+import info.erulinman.swapichars.core.BaseFragment
+import info.erulinman.swapichars.data.LocalDataSource
+import info.erulinman.swapichars.databinding.FragmentFavoritesBinding
+import info.erulinman.swapichars.presentation.details.DetailsFragment
+import info.erulinman.swapichars.core.di.AppComponent
+import info.erulinman.swapichars.presentation.CharacterItemDecoration
 import javax.inject.Inject
 
-class SearchFragment :
-    BaseFragment<FragmentSearchBinding, SearchView>(R.menu.m_search, R.id.tb_search_view) {
+class FavoritesFragment :
+    BaseFragment<FragmentFavoritesBinding, SearchView>(R.menu.m_search, R.id.tb_search_view) {
 
     @Inject
-    lateinit var viewModelFactory: Lazy<ViewModelFactory<RemoteDataSource>>
+    lateinit var viewModelFactory: Lazy<ViewModelFactory<LocalDataSource>>
 
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory.get()).get(SearchViewModel::class.java)
+        ViewModelProvider(this, viewModelFactory.get()).get(FavoritesViewModel::class.java)
     }
 
     override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentSearchBinding.inflate(inflater, container, false)
+        FragmentFavoritesBinding.inflate(inflater, container, false)
 
     override fun initInject(daggerComponent: AppComponent) {
         daggerComponent.inject(this)
@@ -42,22 +41,22 @@ class SearchFragment :
         view.queryHint = getString(R.string.sv_hint)
         view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                val name = query ?: ""
-                viewModel.fetchCharacters(name)
+                viewModel.fetchCharacters(query ?: "")
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.fetchCharacters(newText ?: "")
                 return false
             }
-
         })
         view.isIconified = false
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.fetchCharacters()
         toolbar.setTitle(R.string.app_name)
-        val adapter = SearchAdapter(viewModel) { character ->
+        val adapter = FavoriteAdapter(viewModel) { character ->
             navigator.navigate(DetailsFragment.newInstance(character), true)
         }
         binding.characters.addItemDecoration(CharacterItemDecoration(R.dimen.recycler_view_gaps))
@@ -65,8 +64,7 @@ class SearchFragment :
         observeViewModel(adapter)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun observeViewModel(adapter: SearchAdapter) = viewModel.apply {
+    private fun observeViewModel(adapter: FavoriteAdapter) = viewModel.apply {
         viewDataState.observe(viewLifecycleOwner) { viewDataState ->
             if (viewDataState == null) {
                 binding.characters.isVisible = false
@@ -100,11 +98,6 @@ class SearchFragment :
                     binding.message.isVisible = false
                 }
             }
-        }
-        favorites.observe(viewLifecycleOwner) { favorites ->
-            if (favorites == null) return@observe
-            adapter.favorites = favorites
-            adapter.notifyDataSetChanged()
         }
     }
 }

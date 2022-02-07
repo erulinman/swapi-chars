@@ -1,4 +1,4 @@
-package info.erulinman.swapichars
+package info.erulinman.swapichars.presentation
 
 interface Toolbar {
 

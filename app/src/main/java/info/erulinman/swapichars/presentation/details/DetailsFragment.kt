@@ -1,4 +1,4 @@
-package info.erulinman.swapichars.details
+package info.erulinman.swapichars.presentation.details
 
 import android.os.Bundle
 import android.util.TypedValue
@@ -10,12 +10,12 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import dagger.Lazy
 import info.erulinman.swapichars.R
-import info.erulinman.swapichars.ViewModelFactory
-import info.erulinman.swapichars.base.BaseFragment
+import info.erulinman.swapichars.presentation.ViewModelFactory
+import info.erulinman.swapichars.core.BaseFragment
 import info.erulinman.swapichars.data.LocalDataSource
 import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.databinding.FragmentDetailsBinding
-import info.erulinman.swapichars.di.AppComponent
+import info.erulinman.swapichars.core.di.AppComponent
 import javax.inject.Inject
 
 class DetailsFragment :

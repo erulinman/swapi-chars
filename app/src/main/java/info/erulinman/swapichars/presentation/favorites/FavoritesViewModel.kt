@@ -1,13 +1,13 @@
-package info.erulinman.swapichars.favorites
+package info.erulinman.swapichars.presentation.favorites
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.erulinman.swapichars.ViewDataState
-import info.erulinman.swapichars.data.DataSource
+import info.erulinman.swapichars.presentation.ViewDataState
+import info.erulinman.swapichars.presentation.DataSource
 import info.erulinman.swapichars.data.entity.Character
-import info.erulinman.swapichars.utils.ExceptionHandler
+import info.erulinman.swapichars.presentation.ExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async

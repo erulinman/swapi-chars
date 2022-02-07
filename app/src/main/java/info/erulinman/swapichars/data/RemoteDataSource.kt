@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import info.erulinman.swapichars.data.database.CharactersDao
 import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.data.network.ApiService
+import info.erulinman.swapichars.presentation.DataSource
 import javax.inject.Inject
 import javax.inject.Singleton
 

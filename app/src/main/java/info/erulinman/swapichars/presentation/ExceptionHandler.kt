@@ -1,4 +1,4 @@
-package info.erulinman.swapichars.utils
+package info.erulinman.swapichars.presentation
 
 import android.content.res.Resources
 import info.erulinman.swapichars.R

@@ -3,6 +3,7 @@ package info.erulinman.swapichars.data
 import androidx.lifecycle.LiveData
 import info.erulinman.swapichars.data.database.CharactersDao
 import info.erulinman.swapichars.data.entity.Character
+import info.erulinman.swapichars.presentation.DataSource
 import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(private val charactersDao: CharactersDao) :

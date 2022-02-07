@@ -1,9 +1,9 @@
-package info.erulinman.swapichars.di
+package info.erulinman.swapichars.core.di
 
 import dagger.Component
-import info.erulinman.swapichars.details.DetailsFragment
-import info.erulinman.swapichars.favorites.FavoritesFragment
-import info.erulinman.swapichars.search.SearchFragment
+import info.erulinman.swapichars.presentation.details.DetailsFragment
+import info.erulinman.swapichars.presentation.favorites.FavoritesFragment
+import info.erulinman.swapichars.presentation.search.SearchFragment
 import javax.inject.Singleton
 
 @Singleton

@@ -1,4 +1,4 @@
-package info.erulinman.swapichars
+package info.erulinman.swapichars.presentation
 
 sealed class ViewDataState<out T> {
     object Empty : ViewDataState<Nothing>()

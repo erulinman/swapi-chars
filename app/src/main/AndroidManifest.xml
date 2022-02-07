@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SWAPIChars">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true">
 
             <intent-filter>

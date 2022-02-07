@@ -1,12 +1,10 @@
-package info.erulinman.swapichars
+package info.erulinman.swapichars.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import info.erulinman.swapichars.data.DataSource
-import info.erulinman.swapichars.details.DetailsViewModel
-import info.erulinman.swapichars.favorites.FavoritesViewModel
-import info.erulinman.swapichars.search.SearchViewModel
-import info.erulinman.swapichars.utils.ExceptionHandler
+import info.erulinman.swapichars.presentation.details.DetailsViewModel
+import info.erulinman.swapichars.presentation.favorites.FavoritesViewModel
+import info.erulinman.swapichars.presentation.search.SearchViewModel
 import javax.inject.Inject
 
 class ViewModelFactory<DS : DataSource> @Inject constructor(

@@ -1,4 +1,4 @@
-package info.erulinman.swapichars.di
+package info.erulinman.swapichars.core.di
 
 import dagger.Module
 import dagger.Provides

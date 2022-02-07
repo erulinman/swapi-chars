@@ -1,4 +1,4 @@
-package info.erulinman.swapichars.favorites
+package info.erulinman.swapichars.presentation.favorites
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import info.erulinman.swapichars.R
 import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.databinding.RvCharacterBinding
-import info.erulinman.swapichars.utils.CharacterDiffUtil
+import info.erulinman.swapichars.presentation.CharacterDiffUtil
 
 class FavoriteAdapter(
     private val viewModel: FavoritesViewModel<*>,

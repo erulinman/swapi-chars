@@ -1,8 +1,8 @@
-package info.erulinman.swapichars.details
+package info.erulinman.swapichars.presentation.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.erulinman.swapichars.data.DataSource
+import info.erulinman.swapichars.presentation.DataSource
 import info.erulinman.swapichars.data.entity.Character
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

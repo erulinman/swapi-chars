@@ -1,4 +1,4 @@
-package info.erulinman.swapichars.utils
+package info.erulinman.swapichars.presentation
 
 import androidx.recyclerview.widget.DiffUtil
 import info.erulinman.swapichars.data.entity.Character
