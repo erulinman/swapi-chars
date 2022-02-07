@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import info.erulinman.swapichars.R
-import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.databinding.RvCharacterBinding
+import info.erulinman.swapichars.presentation.Character
 import info.erulinman.swapichars.presentation.CharacterDiffUtil
 
 class FavoriteAdapter(

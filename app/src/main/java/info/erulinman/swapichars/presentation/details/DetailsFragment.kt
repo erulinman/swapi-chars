@@ -10,12 +10,12 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import dagger.Lazy
 import info.erulinman.swapichars.R
-import info.erulinman.swapichars.presentation.ViewModelFactory
 import info.erulinman.swapichars.core.BaseFragment
-import info.erulinman.swapichars.data.LocalDataSource
-import info.erulinman.swapichars.data.entity.Character
-import info.erulinman.swapichars.databinding.FragmentDetailsBinding
+import info.erulinman.swapichars.presentation.Character
 import info.erulinman.swapichars.core.di.AppComponent
+import info.erulinman.swapichars.data.LocalDataSource
+import info.erulinman.swapichars.databinding.FragmentDetailsBinding
+import info.erulinman.swapichars.presentation.ViewModelFactory
 import javax.inject.Inject
 
 class DetailsFragment :
@@ -60,13 +60,13 @@ class DetailsFragment :
         toolbar.setTitle(viewModel.character.name)
         val character = viewModel.character
         binding.apply {
-            birthYear.text = character.birth_year
-            eyeColor.text = character.eye_color
+            birthYear.text = character.birthYear
+            eyeColor.text = character.eyeColor
             gender.text = character.gender
-            hairColor.text = character.hair_color
+            hairColor.text = character.hairColor
             height.text = character.height
             mass.text = character.mass
-            skinColor.text = character.skin_color
+            skinColor.text = character.skinColor
         }
     }
 
@@ -85,8 +85,8 @@ class DetailsFragment :
 
         private const val ARG_CHARACTER = "DetailsFragment.ARG_CHARACTER"
 
-        fun newInstance(character: Character) = DetailsFragment().apply {
-            arguments = bundleOf(ARG_CHARACTER to character)
+        fun newInstance(Character: Character) = DetailsFragment().apply {
+            arguments = bundleOf(ARG_CHARACTER to Character)
         }
     }
 }

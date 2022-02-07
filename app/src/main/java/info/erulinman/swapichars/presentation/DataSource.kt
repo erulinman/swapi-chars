@@ -1,7 +1,6 @@
 package info.erulinman.swapichars.presentation
 
 import androidx.lifecycle.LiveData
-import info.erulinman.swapichars.data.entity.Character
 
 interface DataSource {
 

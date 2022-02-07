@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.erulinman.swapichars.presentation.ViewDataState
+import info.erulinman.swapichars.presentation.Character
 import info.erulinman.swapichars.presentation.DataSource
-import info.erulinman.swapichars.data.entity.Character
 import info.erulinman.swapichars.presentation.ExceptionHandler
+import info.erulinman.swapichars.presentation.ViewDataState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
