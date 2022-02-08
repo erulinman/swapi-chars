@@ -1,26 +1,27 @@
 package info.erulinman.swapichars.data.network
 
+import com.google.gson.annotations.SerializedName
 import info.erulinman.swapichars.presentation.Character
 
 data class CharacterApiEntity(
-    val name: String,
-    val birth_year: String,
-    val eye_color: String,
-    val gender: String,
-    val hair_color: String,
-    val height: String,
-    val mass: String,
-    val skin_color: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("birth_year") val birthYear: String,
+    @SerializedName("eye_color") val eyeColor: String,
+    @SerializedName("gender") val gender: String,
+    @SerializedName("hair_color") val hairColor: String,
+    @SerializedName("height") val height: String,
+    @SerializedName("mass") val mass: String,
+    @SerializedName("skin_color") val skinColor: String
 ) {
 
     fun toCharacter() = Character(
         this.name,
-        this.birth_year,
-        this.eye_color,
+        this.birthYear,
+        this.eyeColor,
         this.gender,
-        this.hair_color,
+        this.hairColor,
         this.height,
         this.mass,
-        this.skin_color
+        this.skinColor
     )
 }
