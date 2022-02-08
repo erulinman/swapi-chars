@@ -7,15 +7,13 @@ import info.erulinman.swapichars.presentation.favorites.FavoritesViewModel
 import info.erulinman.swapichars.presentation.search.SearchViewModel
 import javax.inject.Inject
 
-class ViewModelFactory<DS : DataSource> @Inject constructor(
-    private val dataSource: DS,
-    private val exceptionHandler: ExceptionHandler
-) : ViewModelProvider.Factory {
+class ViewModelFactory<DS : DataSource> @Inject constructor(private val dataSource: DS) :
+    ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val viewModel = when (modelClass) {
-            SearchViewModel::class.java -> SearchViewModel(dataSource, exceptionHandler)
-            FavoritesViewModel::class.java -> FavoritesViewModel(dataSource, exceptionHandler)
+            SearchViewModel::class.java -> SearchViewModel(dataSource)
+            FavoritesViewModel::class.java -> FavoritesViewModel(dataSource)
             DetailsViewModel::class.java -> DetailsViewModel(dataSource)
             else -> error("Wrong ViewModel type")
         }

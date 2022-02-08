@@ -8,24 +8,27 @@ import info.erulinman.swapichars.presentation.Character
 import info.erulinman.swapichars.presentation.DataSource
 import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(private val charactersDao: CharactersDao) : DataSource {
+class LocalDataSource @Inject constructor(
+    private val charactersDao: CharactersDao,
+    private val exceptionHandler: ExceptionHandler
+) : DataSource {
 
     override suspend fun getCharacters() = try {
         val data = charactersDao.getCharacters().map { dbEntity ->
-            return@map dbEntity.toCharacter()
+            dbEntity.toCharacter()
         }
         DataSource.Response.Success(data)
     } catch (e: Exception) {
-        DataSource.Response.Failure(e)
+        DataSource.Response.Failure(exceptionHandler(e))
     }
 
     override suspend fun getCharacters(name: String) = try {
         val data = charactersDao.getCharacters("%$name%").map { dbEntity ->
-            return@map dbEntity.toCharacter()
+            dbEntity.toCharacter()
         }
         DataSource.Response.Success(data)
     } catch (e: Exception) {
-        DataSource.Response.Failure(e)
+        DataSource.Response.Failure(exceptionHandler(e))
     }
 
     override fun getFavorites(): LiveData<List<Character>> {

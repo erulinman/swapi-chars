@@ -14,7 +14,8 @@ import javax.inject.Singleton
 @Singleton
 class RemoteDataSource @Inject constructor(
     private val api: ApiService,
-    private val charactersDao: CharactersDao
+    private val charactersDao: CharactersDao,
+    private val exceptionHandler: ExceptionHandler
 ) : DataSource {
 
     override suspend fun getCharacters() = try {
@@ -29,7 +30,7 @@ class RemoteDataSource @Inject constructor(
         }
         DataSource.Response.Success(data.map { it.toCharacter() })
     } catch (e: Exception) {
-        DataSource.Response.Failure(e)
+        DataSource.Response.Failure(exceptionHandler(e))
     }
 
     override suspend fun getCharacters(name: String) = try {
@@ -44,7 +45,7 @@ class RemoteDataSource @Inject constructor(
         }
         DataSource.Response.Success(data.map { it.toCharacter() })
     } catch (e: Exception) {
-        DataSource.Response.Failure(e)
+        DataSource.Response.Failure(exceptionHandler(e))
     }
 
     override fun getFavorites(): LiveData<List<Character>> {
