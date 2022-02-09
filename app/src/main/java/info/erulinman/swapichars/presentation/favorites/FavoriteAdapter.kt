@@ -2,16 +2,17 @@ package info.erulinman.swapichars.presentation.favorites
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import info.erulinman.swapichars.R
 import info.erulinman.swapichars.databinding.RvCharacterBinding
 import info.erulinman.swapichars.presentation.Character
 import info.erulinman.swapichars.presentation.CharacterDiffUtil
 
 class FavoriteAdapter(
-    private val viewModel: FavoritesViewModel<*>,
-    private val onClick: (Character) -> Unit
+    private val setViewModelObserver: (String, ImageButton) -> Unit,
+    private val onFavoriteButtonClick: (Character) -> Unit,
+    private val onItemClick: (Character) -> Unit
 ) : ListAdapter<Character, FavoriteAdapter.FavoriteViewHolder>(CharacterDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
@@ -20,25 +21,32 @@ class FavoriteAdapter(
             parent,
             false
         )
-        return FavoriteViewHolder(viewModel, binding)
+        return FavoriteViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
-        holder.bind(currentList[position], onClick)
+        holder.bind(
+            currentList[position],
+            setViewModelObserver,
+            onFavoriteButtonClick,
+            onItemClick
+        )
     }
 
     class FavoriteViewHolder(
-        private val viewModel: FavoritesViewModel<*>,
-        private val binding: RvCharacterBinding
+        private val binding: RvCharacterBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(character: Character, onClick: (Character) -> Unit) {
-            itemView.setOnClickListener { onClick(character) }
+        fun bind(
+            character: Character,
+            setViewModelObserver: (String, ImageButton) -> Unit,
+            onFavoriteButtonClick: (Character) -> Unit,
+            onItemClick: (Character) -> Unit
+        ) {
+            setViewModelObserver(character.name, binding.btnCheckFav)
+            itemView.setOnClickListener { onItemClick(character) }
             binding.name.text = character.name
-            binding.btnCheckFav.setImageResource(R.drawable.ic_star_fill)
-            binding.btnCheckFav.setOnClickListener {
-                viewModel.updateFavorites(character)
-            }
+            binding.btnCheckFav.setOnClickListener { onFavoriteButtonClick(character) }
         }
     }
 }

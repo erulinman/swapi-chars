@@ -11,18 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Lazy
 import info.erulinman.swapichars.R
 import info.erulinman.swapichars.core.BaseFragment
-import info.erulinman.swapichars.presentation.Character
 import info.erulinman.swapichars.core.di.AppComponent
-import info.erulinman.swapichars.data.LocalDataSource
 import info.erulinman.swapichars.databinding.FragmentDetailsBinding
-import info.erulinman.swapichars.presentation.ViewModelFactory
+import info.erulinman.swapichars.presentation.Character
 import javax.inject.Inject
 
 class DetailsFragment :
     BaseFragment<FragmentDetailsBinding, ImageButton>(R.menu.m_favorite, R.id.tb_btn_favorite) {
 
     @Inject
-    lateinit var viewModelFactory: Lazy<ViewModelFactory<LocalDataSource>>
+    lateinit var viewModelFactory: Lazy<DetailsViewModel.Factory>
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory.get()).get(DetailsViewModel::class.java)
@@ -71,9 +69,9 @@ class DetailsFragment :
     }
 
     private fun observeViewModel(btnFav: ImageButton) = viewModel.apply {
-        favorites.observe(viewLifecycleOwner) { favorites ->
+        checkInFavorites(character.name).observe(viewLifecycleOwner) { inFavorites ->
             btnFav.setImageResource(
-                if (viewModel.character in favorites)
+                if (inFavorites)
                     R.drawable.ic_star_fill
                 else
                     R.drawable.ic_star_empty

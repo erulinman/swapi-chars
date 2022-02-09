@@ -1,6 +1,5 @@
 package info.erulinman.swapichars.presentation.search
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,21 +9,19 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import dagger.Lazy
 import info.erulinman.swapichars.R
-import info.erulinman.swapichars.presentation.ViewDataState.*
-import info.erulinman.swapichars.presentation.ViewModelFactory
 import info.erulinman.swapichars.core.BaseFragment
-import info.erulinman.swapichars.data.RemoteDataSource
-import info.erulinman.swapichars.databinding.FragmentSearchBinding
-import info.erulinman.swapichars.presentation.details.DetailsFragment
 import info.erulinman.swapichars.core.di.AppComponent
+import info.erulinman.swapichars.databinding.FragmentSearchBinding
 import info.erulinman.swapichars.presentation.CharacterItemDecoration
+import info.erulinman.swapichars.presentation.ViewDataState.*
+import info.erulinman.swapichars.presentation.details.DetailsFragment
 import javax.inject.Inject
 
 class SearchFragment :
     BaseFragment<FragmentSearchBinding, SearchView>(R.menu.m_search, R.id.tb_search_view) {
 
     @Inject
-    lateinit var viewModelFactory: Lazy<ViewModelFactory<RemoteDataSource>>
+    lateinit var viewModelFactory: Lazy<SearchViewModel.Factory>
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory.get()).get(SearchViewModel::class.java)
@@ -57,15 +54,28 @@ class SearchFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         toolbar.setTitle(R.string.app_name)
-        val adapter = SearchAdapter(viewModel) { character ->
-            navigator.navigate(DetailsFragment.newInstance(character), true)
-        }
+        val adapter = SearchAdapter(
+            setViewModelObserver = { name, button ->
+                viewModel.checkInFavorites(name).observe(viewLifecycleOwner) { inFavorites ->
+                    val iconResId = if (inFavorites)
+                        R.drawable.ic_star_fill
+                    else
+                        R.drawable.ic_star_empty
+                    button.setImageResource(iconResId)
+                }
+            },
+            onFavoriteButtonClick = { character ->
+                viewModel.updateFavorites(character)
+            },
+            onItemClick = { character ->
+                navigator.navigate(DetailsFragment.newInstance(character), true)
+            }
+        )
         binding.characters.addItemDecoration(CharacterItemDecoration(R.dimen.recycler_view_gaps))
         binding.characters.adapter = adapter
         observeViewModel(adapter)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun observeViewModel(adapter: SearchAdapter) = viewModel.apply {
         viewDataState.observe(viewLifecycleOwner) { viewDataState ->
             if (viewDataState == null) {
@@ -100,11 +110,6 @@ class SearchFragment :
                     binding.message.isVisible = false
                 }
             }
-        }
-        favorites.observe(viewLifecycleOwner) { favorites ->
-            if (favorites == null) return@observe
-            adapter.favorites = favorites
-            adapter.notifyDataSetChanged()
         }
     }
 }

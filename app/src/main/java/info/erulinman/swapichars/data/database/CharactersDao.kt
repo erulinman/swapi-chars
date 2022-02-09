@@ -1,16 +1,16 @@
 package info.erulinman.swapichars.data.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CharactersDao {
 
-    @Query("SELECT * FROM characters;")
-    fun getFavorites(): LiveData<List<CharacterDbEntity>>
+    @Query("SELECT * FROM characters WHERE name = :name;")
+    fun checkByName(name: String): LiveData<CharacterDbEntity>
+
+    @Query("SELECT * FROM characters WHERE name = :name;")
+    suspend fun getByName(name: String): CharacterDbEntity?
 
     @Query("SELECT * FROM characters ORDER BY name;")
     suspend fun getCharacters(): List<CharacterDbEntity>
@@ -18,10 +18,7 @@ interface CharactersDao {
     @Query("SELECT * FROM characters WHERE name like :name ORDER BY name;")
     suspend fun getCharacters(name: String): List<CharacterDbEntity>
 
-    @Query("SELECT * FROM characters WHERE name = :name;")
-    suspend fun getByName(name: String): CharacterDbEntity?
-
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(characterDbEntity: CharacterDbEntity)
 
     @Delete

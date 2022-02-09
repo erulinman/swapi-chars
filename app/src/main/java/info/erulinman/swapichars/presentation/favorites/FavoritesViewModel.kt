@@ -1,18 +1,24 @@
 package info.erulinman.swapichars.presentation.favorites
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import info.erulinman.swapichars.core.di.Local
 import info.erulinman.swapichars.presentation.Character
-import info.erulinman.swapichars.presentation.DataSource
+import info.erulinman.swapichars.presentation.Characters
+import info.erulinman.swapichars.presentation.Favorites
 import info.erulinman.swapichars.presentation.ViewDataState
+import info.erulinman.swapichars.presentation.details.DetailsViewModel
+import info.erulinman.swapichars.presentation.search.SearchViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
-class FavoritesViewModel<DS : DataSource>(private val dataSource: DS) : ViewModel() {
+class FavoritesViewModel(
+    private val characters: Characters,
+    private val favorites: Favorites
+) : ViewModel() {
 
     private var job: Job? = null
 
@@ -30,19 +36,19 @@ class FavoritesViewModel<DS : DataSource>(private val dataSource: DS) : ViewMode
             _viewDataState.postValue(ViewDataState.Loading)
 
             val response = if (name == null)
-                dataSource.getCharacters()
+                characters.getAll()
             else
-                dataSource.getCharacters(name)
+                characters.getByFilter(name)
 
             when (response) {
-                is DataSource.Response.Success -> {
+                is Characters.Response.Success -> {
                     val value = if (response.data.isEmpty())
                         ViewDataState.Empty
                     else
                         ViewDataState.Loaded(response.data)
                     _viewDataState.postValue(value)
                 }
-                is DataSource.Response.Failure -> {
+                is Characters.Response.Failure -> {
                     val value = ViewDataState.Error(response.message)
                     _viewDataState.postValue(value)
                 }
@@ -51,13 +57,30 @@ class FavoritesViewModel<DS : DataSource>(private val dataSource: DS) : ViewMode
     }
 
     fun updateFavorites(character: Character) = viewModelScope.launch(Dispatchers.IO) {
-        val result = async { dataSource.updateFavorites(character) }
+        val result = async { favorites.update(character) }
         if (result.await()) fetchCharacters()
     }
+
+    fun checkInFavorites(name: String) = favorites.checkByName(name)
 
     override fun onCleared() {
         super.onCleared()
         job?.cancel()
+    }
+
+    class Factory @Inject constructor(
+        @Local private val characters: Characters,
+        private val favorites: Favorites
+    ) : ViewModelProvider.Factory {
+
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            val viewModel = when (modelClass) {
+                FavoritesViewModel::class.java -> FavoritesViewModel(characters, favorites)
+                else -> error("Wrong ViewModel type")
+            }
+
+            return viewModel as T
+        }
     }
 }
 

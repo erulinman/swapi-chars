@@ -2,19 +2,18 @@ package info.erulinman.swapichars.presentation.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import info.erulinman.swapichars.R
 import info.erulinman.swapichars.databinding.RvCharacterBinding
 import info.erulinman.swapichars.presentation.Character
 import info.erulinman.swapichars.presentation.CharacterDiffUtil
 
 class SearchAdapter(
-    private val viewModel: SearchViewModel<*>,
-    private val onClick: (Character) -> Unit
+    private val setViewModelObserver: (String, ImageButton) -> Unit,
+    private val onFavoriteButtonClick: (Character) -> Unit,
+    private val onItemClick: (Character) -> Unit
 ) : ListAdapter<Character, SearchAdapter.SearchViewHolder>(CharacterDiffUtil) {
-
-    var favorites = listOf<Character>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         val binding = RvCharacterBinding.inflate(
@@ -22,29 +21,32 @@ class SearchAdapter(
             parent,
             false
         )
-        return SearchViewHolder(viewModel, binding)
+        return SearchViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        holder.bind(favorites, currentList[position], onClick)
+        holder.bind(
+            currentList[position],
+            setViewModelObserver,
+            onFavoriteButtonClick,
+            onItemClick
+        )
     }
 
     class SearchViewHolder(
-        private val viewModel: SearchViewModel<*>,
-        private val binding: RvCharacterBinding
+        private val binding: RvCharacterBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(favorites: List<Character>, character: Character, onClick: (Character) -> Unit) {
-            itemView.setOnClickListener { onClick(character) }
-            val iconResId = if (character in favorites)
-                R.drawable.ic_star_fill
-            else
-                R.drawable.ic_star_empty
-            binding.btnCheckFav.setImageResource(iconResId)
+        fun bind(
+            character: Character,
+            setViewModelObserver: (String, ImageButton) -> Unit,
+            onFavoriteButtonClick: (Character) -> Unit,
+            onItemClick: (Character) -> Unit
+        ) {
+            setViewModelObserver(character.name, binding.btnCheckFav)
+            itemView.setOnClickListener { onItemClick(character) }
             binding.name.text = character.name
-            binding.btnCheckFav.setOnClickListener {
-                viewModel.updateFavorites(character)
-            }
+            binding.btnCheckFav.setOnClickListener { onFavoriteButtonClick(character) }
         }
     }
 }

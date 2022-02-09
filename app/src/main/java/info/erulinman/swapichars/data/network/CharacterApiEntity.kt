@@ -4,14 +4,22 @@ import com.google.gson.annotations.SerializedName
 import info.erulinman.swapichars.presentation.Character
 
 data class CharacterApiEntity(
-    @SerializedName("name") val name: String,
     @SerializedName("birth_year") val birthYear: String,
     @SerializedName("eye_color") val eyeColor: String,
-    @SerializedName("gender") val gender: String,
     @SerializedName("hair_color") val hairColor: String,
-    @SerializedName("height") val height: String,
-    @SerializedName("mass") val mass: String,
-    @SerializedName("skin_color") val skinColor: String
+    @SerializedName("skin_color") val skinColor: String,
+    val name: String,
+    val gender: String,
+    val height: String,
+    val mass: String,
+    val created: String,
+    val edited: String,
+    val films: List<String>,
+    val homeworld: String,
+    val species: List<String>,
+    val starships: List<String>,
+    val url: String,
+    val vehicles: List<String>
 ) {
 
     fun toCharacter() = Character(
