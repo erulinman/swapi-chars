@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import info.erulinman.swapichars.core.Navigator
 import info.erulinman.swapichars.R
+import info.erulinman.swapichars.core.Navigator
 import info.erulinman.swapichars.databinding.ActivityMainBinding
-import info.erulinman.swapichars.presentation.favorites.FavoritesFragment
-import info.erulinman.swapichars.presentation.search.SearchFragment
+import info.erulinman.swapichars.presentation.characters.FavoritesFragment
+import info.erulinman.swapichars.presentation.characters.SearchFragment
 
 class MainActivity : AppCompatActivity(), Toolbar, Navigator {
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), Toolbar, Navigator {
         binding.botNavView.setOnItemSelectedListener(null)
     }
 
-    override fun <T : Fragment> navigate(fragment: T, addToBackStack: Boolean) {
+    override fun navigate(fragment: Fragment, addToBackStack: Boolean) {
         if (supportFragmentManager.backStackEntryCount > 0)
             supportFragmentManager.popBackStack()
 

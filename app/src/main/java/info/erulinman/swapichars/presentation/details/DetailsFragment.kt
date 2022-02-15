@@ -16,8 +16,8 @@ import info.erulinman.swapichars.databinding.FragmentDetailsBinding
 import info.erulinman.swapichars.presentation.Character
 import javax.inject.Inject
 
-class DetailsFragment :
-    BaseFragment<FragmentDetailsBinding, ImageButton>(R.menu.m_favorite, R.id.tb_btn_favorite) {
+class DetailsFragment
+    : BaseFragment<FragmentDetailsBinding, ImageButton>(R.menu.m_favorite, R.id.tb_btn_favorite) {
 
     @Inject
     lateinit var viewModelFactory: Lazy<DetailsViewModel.Factory>

@@ -21,7 +21,7 @@ class LocalCharactersRepository @Inject constructor(
     }
 
     override suspend fun getByFilter(filter: String) = try {
-        val data = charactersDao.getCharacters(filter).map { dbEntity ->
+        val data = charactersDao.getCharacters("%$filter%").map { dbEntity ->
             dbEntity.toCharacter()
         }
         Characters.Response.Success(data)

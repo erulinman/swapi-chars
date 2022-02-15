@@ -6,8 +6,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import info.erulinman.swapichars.App
-import info.erulinman.swapichars.presentation.Toolbar
 import info.erulinman.swapichars.core.di.AppComponent
+import info.erulinman.swapichars.presentation.Toolbar
 
 abstract class BaseFragment<VB : ViewBinding, AV : View>(
     private val menuId: Int,

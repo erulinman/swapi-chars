@@ -7,7 +7,6 @@ import info.erulinman.swapichars.data.LocalCharactersRepository
 import info.erulinman.swapichars.data.RemoteCharactersRepository
 import info.erulinman.swapichars.presentation.Characters
 import info.erulinman.swapichars.presentation.Favorites
-import javax.inject.Named
 import javax.inject.Qualifier
 
 @Module(

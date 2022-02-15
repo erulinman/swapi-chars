@@ -30,6 +30,7 @@ class DetailsViewModel(
         private val favorites: Favorites
     ) : ViewModelProvider.Factory {
 
+        @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             val viewModel = when (modelClass) {
                 DetailsViewModel::class.java -> DetailsViewModel(favorites)

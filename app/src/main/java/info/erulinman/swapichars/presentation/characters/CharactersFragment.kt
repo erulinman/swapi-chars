@@ -1,4 +1,4 @@
-package info.erulinman.swapichars.presentation.favorites
+package info.erulinman.swapichars.presentation.characters
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,29 +10,21 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Lazy
 import info.erulinman.swapichars.R
 import info.erulinman.swapichars.core.BaseFragment
-import info.erulinman.swapichars.core.di.AppComponent
-import info.erulinman.swapichars.databinding.FragmentFavoritesBinding
-import info.erulinman.swapichars.presentation.CharacterItemDecoration
+import info.erulinman.swapichars.databinding.FragmentCharactersBinding
 import info.erulinman.swapichars.presentation.ViewDataState.*
 import info.erulinman.swapichars.presentation.details.DetailsFragment
-import javax.inject.Inject
 
-class FavoritesFragment :
-    BaseFragment<FragmentFavoritesBinding, SearchView>(R.menu.m_search, R.id.tb_search_view) {
+abstract class CharactersFragment<T : ViewModelProvider.Factory>
+    : BaseFragment<FragmentCharactersBinding, SearchView>(R.menu.m_search, R.id.tb_search_view) {
 
-    @Inject
-    lateinit var viewModelFactory: Lazy<FavoritesViewModel.Factory>
+    abstract var viewModelFactory: Lazy<T>
 
     private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory.get()).get(FavoritesViewModel::class.java)
+        ViewModelProvider(this, viewModelFactory.get()).get(CharactersViewModel::class.java)
     }
 
     override fun initBinding(inflater: LayoutInflater, container: ViewGroup?) =
-        FragmentFavoritesBinding.inflate(inflater, container, false)
-
-    override fun initInject(daggerComponent: AppComponent) {
-        daggerComponent.inject(this)
-    }
+        FragmentCharactersBinding.inflate(inflater, container, false)
 
     override fun prepareToolbarActionView(view: SearchView) {
         view.isIconifiedByDefault = true
@@ -52,10 +44,9 @@ class FavoritesFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.fetchCharacters()
         toolbar.setTitle(R.string.app_name)
-        val adapter = FavoriteAdapter(
-            setViewModelObserver = { name, button ->
+        val adapter = CharactersAdapter(
+            setObserver = { name, button ->
                 viewModel.checkInFavorites(name).observe(viewLifecycleOwner) { inFavorites ->
                     val iconResId = if (inFavorites)
                         R.drawable.ic_star_fill
@@ -76,7 +67,7 @@ class FavoritesFragment :
         observeViewModel(adapter)
     }
 
-    private fun observeViewModel(adapter: FavoriteAdapter) = viewModel.apply {
+    private fun observeViewModel(adapter: CharactersAdapter) = viewModel.apply {
         viewDataState.observe(viewLifecycleOwner) { viewDataState ->
             if (viewDataState == null) {
                 binding.characters.isVisible = false

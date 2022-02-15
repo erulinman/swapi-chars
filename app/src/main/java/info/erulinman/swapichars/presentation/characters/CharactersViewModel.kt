@@ -1,21 +1,19 @@
-package info.erulinman.swapichars.presentation.favorites
+package info.erulinman.swapichars.presentation.characters
 
-import androidx.lifecycle.*
-import info.erulinman.swapichars.core.di.Local
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import info.erulinman.swapichars.presentation.Character
 import info.erulinman.swapichars.presentation.Characters
 import info.erulinman.swapichars.presentation.Favorites
 import info.erulinman.swapichars.presentation.ViewDataState
-import info.erulinman.swapichars.presentation.details.DetailsViewModel
-import info.erulinman.swapichars.presentation.search.SearchViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Named
 
-class FavoritesViewModel(
+class CharactersViewModel(
     private val characters: Characters,
     private val favorites: Favorites
 ) : ViewModel() {
@@ -58,7 +56,7 @@ class FavoritesViewModel(
 
     fun updateFavorites(character: Character) = viewModelScope.launch(Dispatchers.IO) {
         val result = async { favorites.update(character) }
-        if (result.await()) fetchCharacters()
+        //if (result.await()) fetchCharacters()
     }
 
     fun checkInFavorites(name: String) = favorites.checkByName(name)
@@ -66,21 +64,6 @@ class FavoritesViewModel(
     override fun onCleared() {
         super.onCleared()
         job?.cancel()
-    }
-
-    class Factory @Inject constructor(
-        @Local private val characters: Characters,
-        private val favorites: Favorites
-    ) : ViewModelProvider.Factory {
-
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            val viewModel = when (modelClass) {
-                FavoritesViewModel::class.java -> FavoritesViewModel(characters, favorites)
-                else -> error("Wrong ViewModel type")
-            }
-
-            return viewModel as T
-        }
     }
 }
 

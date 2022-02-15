@@ -1,6 +1,7 @@
-package info.erulinman.swapichars.presentation
+package info.erulinman.swapichars.presentation.characters
 
 import androidx.recyclerview.widget.DiffUtil
+import info.erulinman.swapichars.presentation.Character
 
 object CharacterDiffUtil : DiffUtil.ItemCallback<Character>() {
 

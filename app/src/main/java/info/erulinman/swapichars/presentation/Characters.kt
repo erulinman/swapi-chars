@@ -10,4 +10,5 @@ interface Characters {
         class Success<out T>(val data: T) : Response<T>()
         class Failure(val message: String) : Response<Nothing>()
     }
+
 }
