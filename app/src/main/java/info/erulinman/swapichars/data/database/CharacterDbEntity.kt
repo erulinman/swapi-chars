@@ -3,7 +3,7 @@ package info.erulinman.swapichars.data.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import info.erulinman.swapichars.presentation.Character
+import info.erulinman.swapichars.presentation.CharacterUiEntity
 
 @Entity(tableName = "characters")
 data class CharacterDbEntity(
@@ -18,7 +18,7 @@ data class CharacterDbEntity(
     @ColumnInfo(name = "skin_color") val skinColor: String,
 ) {
 
-    fun toCharacter() = Character(
+    fun toCharacterUiEntity(favorite: Boolean = true) = CharacterUiEntity(
         this.name,
         this.birthYear,
         this.eyeColor,
@@ -26,6 +26,7 @@ data class CharacterDbEntity(
         this.hairColor,
         this.height,
         this.mass,
-        this.skinColor
+        this.skinColor,
+        favorite
     )
 }

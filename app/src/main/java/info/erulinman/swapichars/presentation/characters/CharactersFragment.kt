@@ -31,12 +31,12 @@ abstract class CharactersFragment<T : ViewModelProvider.Factory>
         view.queryHint = getString(R.string.sv_hint)
         view.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModel.fetchCharacters(query ?: "")
+                viewModel.setFilter(query)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.fetchCharacters(newText ?: "")
+                viewModel.setFilter(newText)
                 return false
             }
         })
@@ -46,15 +46,6 @@ abstract class CharactersFragment<T : ViewModelProvider.Factory>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         toolbar.setTitle(R.string.app_name)
         val adapter = CharactersAdapter(
-            setObserver = { name, button ->
-                viewModel.checkInFavorites(name).observe(viewLifecycleOwner) { inFavorites ->
-                    val iconResId = if (inFavorites)
-                        R.drawable.ic_star_fill
-                    else
-                        R.drawable.ic_star_empty
-                    button.setImageResource(iconResId)
-                }
-            },
             onFavoriteButtonClick = { character ->
                 viewModel.updateFavorites(character)
             },
@@ -65,6 +56,7 @@ abstract class CharactersFragment<T : ViewModelProvider.Factory>
         binding.characters.addItemDecoration(CharacterItemDecoration(R.dimen.recycler_view_gaps))
         binding.characters.adapter = adapter
         observeViewModel(adapter)
+        viewModel.fetchCharacters()
     }
 
     private fun observeViewModel(adapter: CharactersAdapter) = viewModel.apply {

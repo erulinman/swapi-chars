@@ -14,7 +14,4 @@ interface ApiService {
 
     @GET("/api/people?format=json")
     suspend fun getCharacters(@Query("page") page: Int): SearchResponse
-
-    @GET
-    suspend fun getMovieByUrl(@Url url: String): SearchResponse
 }

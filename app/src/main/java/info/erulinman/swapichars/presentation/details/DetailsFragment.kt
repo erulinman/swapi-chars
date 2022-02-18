@@ -13,7 +13,7 @@ import info.erulinman.swapichars.R
 import info.erulinman.swapichars.core.BaseFragment
 import info.erulinman.swapichars.core.di.AppComponent
 import info.erulinman.swapichars.databinding.FragmentDetailsBinding
-import info.erulinman.swapichars.presentation.Character
+import info.erulinman.swapichars.presentation.CharacterUiEntity
 import javax.inject.Inject
 
 class DetailsFragment
@@ -49,7 +49,7 @@ class DetailsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireArguments().getParcelable<Character>(ARG_CHARACTER)?.let {
+        requireArguments().getParcelable<CharacterUiEntity>(ARG_CHARACTER)?.let {
             viewModel.setCharacter(it)
         }
     }
@@ -83,8 +83,8 @@ class DetailsFragment
 
         private const val ARG_CHARACTER = "DetailsFragment.ARG_CHARACTER"
 
-        fun newInstance(Character: Character) = DetailsFragment().apply {
-            arguments = bundleOf(ARG_CHARACTER to Character)
+        fun newInstance(CharacterUiEntity: CharacterUiEntity) = DetailsFragment().apply {
+            arguments = bundleOf(ARG_CHARACTER to CharacterUiEntity)
         }
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import info.erulinman.swapichars.data.database.CharacterDbEntity
 import info.erulinman.swapichars.data.database.CharactersDao
-import info.erulinman.swapichars.presentation.Character
+import info.erulinman.swapichars.presentation.CharacterUiEntity
 import info.erulinman.swapichars.presentation.Favorites
 import javax.inject.Inject
 
@@ -17,8 +17,8 @@ class FavoritesRepository @Inject constructor(
             it != null
         }
 
-    override suspend fun update(character: Character): Boolean {
-        val characterEntity = CharacterDbEntity(
+    override suspend fun update(character: CharacterUiEntity): Boolean {
+        val characterDbEntity = CharacterDbEntity(
             character.name,
             character.birthYear,
             character.eyeColor,
@@ -28,11 +28,13 @@ class FavoritesRepository @Inject constructor(
             character.mass,
             character.skinColor
         )
-        val item = charactersDao.getByName(characterEntity.name)
-        if (item != null)
-            charactersDao.delete(characterEntity)
-        else
-            charactersDao.insert(characterEntity)
+        val item = charactersDao.getByName(character.name)
+        if (item != null) {
+            charactersDao.delete(characterDbEntity)
+        } else {
+            charactersDao.insert(characterDbEntity)
+        }
+
         return true
     }
 

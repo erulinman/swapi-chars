@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import info.erulinman.swapichars.presentation.Character
+import info.erulinman.swapichars.presentation.CharacterUiEntity
 import info.erulinman.swapichars.presentation.Characters
+import info.erulinman.swapichars.presentation.Characters.Response.Failure
+import info.erulinman.swapichars.presentation.Characters.Response.Success
 import info.erulinman.swapichars.presentation.Favorites
 import info.erulinman.swapichars.presentation.ViewDataState
 import kotlinx.coroutines.Dispatchers
@@ -20,46 +22,43 @@ class CharactersViewModel(
 
     private var job: Job? = null
 
-    private val _viewDataState =
-        MutableLiveData<ViewDataState<List<Character>>>(ViewDataState.Loaded(listOf()))
-    val viewDataState: LiveData<ViewDataState<List<Character>>> = _viewDataState
+    private var filter: String? = null
 
-    init {
+    private val _viewDataState =
+        MutableLiveData<ViewDataState<List<CharacterUiEntity>>>(ViewDataState.Loaded(listOf()))
+    val viewDataState: LiveData<ViewDataState<List<CharacterUiEntity>>> = _viewDataState
+
+    fun setFilter(filter: String?) {
+        this.filter = filter
         fetchCharacters()
     }
 
-    fun fetchCharacters(name: String? = null) {
+    fun fetchCharacters() {
         job?.cancel()
         job = viewModelScope.launch(Dispatchers.IO) {
             _viewDataState.postValue(ViewDataState.Loading)
 
-            val response = if (name == null)
-                characters.getAll()
-            else
-                characters.getByFilter(name)
+            val response = characters.get(filter)
 
             when (response) {
-                is Characters.Response.Success -> {
-                    val value = if (response.data.isEmpty())
+                is Success -> _viewDataState.postValue(
+                    if (response.data.isEmpty())
                         ViewDataState.Empty
                     else
                         ViewDataState.Loaded(response.data)
-                    _viewDataState.postValue(value)
-                }
-                is Characters.Response.Failure -> {
-                    val value = ViewDataState.Error(response.message)
-                    _viewDataState.postValue(value)
-                }
+                )
+                is Failure -> _viewDataState.postValue(
+                    ViewDataState.Error(response.message)
+                )
             }
         }
     }
 
-    fun updateFavorites(character: Character) = viewModelScope.launch(Dispatchers.IO) {
-        val result = async { favorites.update(character) }
-        //if (result.await()) fetchCharacters()
-    }
-
-    fun checkInFavorites(name: String) = favorites.checkByName(name)
+    fun updateFavorites(characterUiEntity: CharacterUiEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = async { favorites.update(characterUiEntity) }
+            if (result.await()) fetchCharacters()
+        }
 
     override fun onCleared() {
         super.onCleared()

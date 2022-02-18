@@ -1,7 +1,7 @@
 package info.erulinman.swapichars.data.network
 
 import com.google.gson.annotations.SerializedName
-import info.erulinman.swapichars.presentation.Character
+import info.erulinman.swapichars.presentation.CharacterUiEntity
 
 data class CharacterApiEntity(
     @SerializedName("birth_year") val birthYear: String,
@@ -22,7 +22,7 @@ data class CharacterApiEntity(
     val vehicles: List<String>
 ) {
 
-    fun toCharacter() = Character(
+    fun toCharacterUiEntity(favorite: Boolean) = CharacterUiEntity(
         this.name,
         this.birthYear,
         this.eyeColor,
@@ -30,6 +30,7 @@ data class CharacterApiEntity(
         this.hairColor,
         this.height,
         this.mass,
-        this.skinColor
+        this.skinColor,
+        favorite
     )
 }
